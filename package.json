@@ -1,0 +1,16 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+      "build": "lerna run build",
+      "frontend": "yarn workspace frontend"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.29",
+    "lerna": "^8.1.2",
+    "typescript": "^5.4.2"
+  }
+}
