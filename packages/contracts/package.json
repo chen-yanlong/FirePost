@@ -1,4 +1,11 @@
 {
   "name": "contract",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "devDependencies": {
+    "hardhat": "^2.22.2",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
 }
