@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
@@ -39,16 +39,16 @@ contract FIREToken is ERC20 {
         require(balanceOf(msg.sender) >= _amountSquare, "Insufficient balance");
         require(msg.sender != _to, "cannot vote for yourself");
         _transfer(msg.sender, address(this), _amountSquare);
-        votes[day][_to] += _amount;
-        if(votes[day][_to] > winnerVoteAmount){
-            winnerVoteAmount = votes[day][_to];
+        votes[_to][day] += _amount;
+        if(votes[_to][day] > winnerVoteAmount){
+            winnerVoteAmount = votes[_to][day];
             winner = _to;
         }
         return true;
     }
 
-    function getVote(address _addr) public view returns(uint256) {
-        return votes[_addr];
+    function getVote(address _addr, uint256 _day) public view returns(uint256) {
+        return votes[_addr][_day];
     }
 
     function claimReward() public returns(bool) {
