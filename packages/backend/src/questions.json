@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "description": "Take a photo of a sunrise"
+    },
+    {
+        "id": 2,
+        "description": "Take a photo of a cat sleeping"
+    },
+    {
+        "id": 3,
+        "description": "Take a photo of a city skyline"
+    },
+    {
+        "id": 4,
+        "description": "Take a photo of a beach sunset"
+    },
+    {
+        "id": 5,
+        "description": "Take a photo of a delicious cake"
+    },
+    {
+        "id": 6,
+        "description": "Take a photo of a vintage car"
+    },
+    {
+        "id": 7,
+        "description": "Take a photo of a waterfall"
+    },
+    {
+        "id": 8,
+        "description": "Take a photo of colorful street art"
+    },
+    {
+        "id": 9,
+        "description": "Take a photo of a snow-covered landscape"
+    },
+    {
+        "id": 10,
+        "description": "Take a photo of a newborn baby"
+    },
+    {
+        "id": 11,
+        "description": "Take a photo of a vibrant market"
+    },
+    {
+        "id": 12,
+        "description": "Take a photo of a majestic mountain peak"
+    },
+    {
+        "id": 13,
+        "description": "Take a photo of a family picnic"
+    },
+    {
+        "id": 14,
+        "description": "Take a photo of a field of flowers"
+    },
+    {
+        "id": 15,
+        "description": "Take a photo of a beautiful sunset"
+    },
+    {
+        "id": 16,
+        "description": "Take a photo of a colorful autumn tree"
+    },
+    {
+        "id": 17,
+        "description": "Take a photo of a well-decorated Christmas tree"
+    },
+    {
+        "id": 18,
+        "description": "Take a photo of a cozy fireplace"
+    },
+    {
+        "id": 19,
+        "description": "Take a photo of a group of friends laughing"
+    },
+    {
+        "id": 20,
+        "description": "Take a photo of a stunning sunset reflected in water"
+    }
+]
