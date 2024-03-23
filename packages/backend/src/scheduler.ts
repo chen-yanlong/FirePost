@@ -1,6 +1,6 @@
 // scheduler.js
 const schedule = require('node-schedule');
-const question = require('./questions'); 
+const question = require('./questions');
 
 const job_take_photo = schedule.scheduleJob(generateRandomTime(), function() {
     const randomIndex = Math.floor(Math.random() * questions.length);
@@ -19,6 +19,7 @@ const job_take_photo = schedule.scheduleJob(generateRandomTime(), function() {
 
 const job_Tally = schedule.scheduleJob("0 0 0 * * *", async function() {
     await action_tally();
+    clearPosts();
 })
 
 function generateRandomTime() {
@@ -34,5 +35,14 @@ function generateRandomTime() {
 }
 
 
+function clearPosts() {
+    db.run('DELETE FROM posts', function(err) {
+        if (err) {
+            console.error('Error clearing posts:', err);
+        } else {
+            console.log('Posts cleared from the database');
+        }
+    });
+}
 
 
