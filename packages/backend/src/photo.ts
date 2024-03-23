@@ -1,4 +1,11 @@
 const multer = require('multer');
+const fs = require('fs');
+
+const uploadsDir = './uploads';
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 
 // store photos in ./uploads
 const storage = multer.diskStorage({
@@ -9,6 +16,6 @@ const storage = multer.diskStorage({
         cb(null, file.originalname) 
     }
 });
-export const upload = multer({storage });
+export const upload = multer({ storage: storage });
 
 
