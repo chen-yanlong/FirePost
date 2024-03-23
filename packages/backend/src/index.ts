@@ -7,7 +7,6 @@ const questions = require('./questions');
 require('./scheduler'); // Import the scheduler to initialize it
 const { action_tally, action_open, action_givePostReward, getBalance } = require('./contract')
 
-
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);

@@ -94,4 +94,4 @@ const getBalance = async (_address) => {
     return balance;
 }
 
-module.exports = {action_tally, action_open, action_givePostReward, getBalance}
+module.exports = { action_tally, action_open, action_givePostReward, getBalance }
