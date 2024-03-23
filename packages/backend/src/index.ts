@@ -5,6 +5,8 @@ const db = require('./database');
 const upload = require('./photos');
 const questions = require('./questions');
 require('./scheduler'); // Import the scheduler to initialize it
+const { action_tally, action_open, action_givePostReward, getBalance } = require('./contract')
+
 
 const app = express();
 const server = http.createServer(app);
@@ -15,20 +17,27 @@ app.post('/api/posts', upload.single('photo'), (req, res) => {
     const { user_address } = req.body;
     const photoUrl = req.file ? '/uploads/' + req.file.filename : null; // Get photo URL if uploaded
 
-    // Insert post into database
-    db.run('INSERT INTO posts (user_address, photo_url) VALUES (?, ?)',
-        [user_address, photoUrl],
+    // Update post in database
+    db.run('UPDATE posts SET photo_url = ? WHERE user_address = ?',
+        [photoUrl, user_address],
         (err) => {
             if (err) {
-                console.error('Error inserting post:', err);
+                console.error('Error updating post:', err);
                 res.status(500).json({ error: 'Internal server error' });
             } else {
-                console.log('Post inserted into database');
-                res.status(201).json({ message: 'Post created successfully' });
+                console.log('Post updated in database');
+                res.status(200).json({ message: 'Post updated successfully' });
             }
         }
     );
+    action_givePostReward(user_address);
 });
+
+app.get('/api/balance', (req, res) => {
+    const { user_address } = req.body
+    const balance = getBalance(user_address);
+    res.status(200).json({balance: balance})
+})
 
 app.get('/api/posts', (req, res) => {
     // Fetch all posts from database
@@ -43,9 +52,6 @@ app.get('/api/posts', (req, res) => {
 });
 
 
-
-
-
 // Socket.IO connection handling
 io.on('connection', (socket) => {
     console.log('Client connected');
@@ -58,3 +64,4 @@ io.on('connection', (socket) => {
 server.listen(8545, () => {
     console.log('Server running on port 8545');
 });
+
