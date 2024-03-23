@@ -4,5 +4,5 @@
       "sourceMap": true,
       "outDir": "./build"
   },
-  "include": ["./index.ts"],
+  "include": ["src/index.ts"],
 }
