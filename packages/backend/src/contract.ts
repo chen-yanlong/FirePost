@@ -1,7 +1,6 @@
 require('dotenv').config();
 const Web3 = require('web3');
 const abi = require('contract/artifacts/contracts/FIREToken.json').abi;
-const Tx = require('ethereumjs-tx');
 
 const infuraApiKey = process.env.INFURA_API_KEY;
 const privateKey = process.env.PRIVATE_KEY
@@ -12,7 +11,7 @@ const web3 = new Web3(infuraUrl);
 const contract = new web3.eth.Contract(abi, contractAddress);
 
 //call tally()
-const action_tally = async () => {
+export const action_tally = async () => {
     try{
         const gasPrice = await web3.eth.getGasPrice();
         const senderAddress = web3.eth.accounts.privateKeyToAccount(privateKey).address;
@@ -38,7 +37,7 @@ const action_tally = async () => {
 };
 
 // call open()
-const action_open = async () => {
+export const action_open = async () => {
     try{
         const gasPrice = await web3.eth.getGasPrice();
         const senderAddress = web3.eth.accounts.privateKeyToAccount(privateKey).address;
@@ -63,7 +62,7 @@ const action_open = async () => {
     }
 };
 
-const action_givePostReward = (_address: string) => {
+export const action_givePostReward = (_address: string) => {
     async () => {
         try{
             const gasPrice = await web3.eth.getGasPrice();
@@ -89,9 +88,8 @@ const action_givePostReward = (_address: string) => {
         }
     };
 }
-const getBalance = async (_address) => {
+export const getBalance = async (_address) => {
     const balance = await contract.methods.getBalance(_address).call();
     return balance;
 }
 
-module.exports = { action_tally, action_open, action_givePostReward, getBalance }

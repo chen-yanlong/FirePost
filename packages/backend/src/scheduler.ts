@@ -1,6 +1,5 @@
 // scheduler.js
 const schedule = require('node-schedule');
-const io = require('./socket'); // Import socket.io instance
 const question = require('./questions'); 
 
 const job_take_photo = schedule.scheduleJob(generateRandomTime(), function() {

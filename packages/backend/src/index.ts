@@ -1,11 +1,12 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const db = require('./database');
-const upload = require('./photos');
-const questions = require('./questions');
-require('./scheduler'); // Import the scheduler to initialize it
+const { db } = require('./database');
+const { upload }= require('./photos');
+const { questions } = require('./questions');
 const { action_tally, action_open, action_givePostReward, getBalance } = require('./contract')
+require('./scheduler'); // Import the scheduler to initialize it
+
 
 const app = express();
 const server = http.createServer(app);
