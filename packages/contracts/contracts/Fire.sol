@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract FIREToken is ERC20 {
+contract Fire is ERC20 {
     
     event Tally(uint256 day, address winner);
     
@@ -75,4 +75,7 @@ contract FIREToken is ERC20 {
         _transfer(address(this), _addr, postRewardAmount);
     }
 
+    function getBalance(address _addr) public view returns(uint256) {
+        return balanceOf(_addr);
+    }
 }
