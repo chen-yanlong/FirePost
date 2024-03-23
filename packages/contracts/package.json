@@ -1,11 +1,41 @@
 {
   "name": "contract",
   "version": "0.0.1",
+  "scripts": {
+    "compile": "npx hardhat compile",
+        "test": "REPORT_GAS=true npx hardhat test",
+        "format": "npx prettier --write --plugin=prettier-plugin-solidity .",
+        "coverage": "npx hardhat coverage",
+        "node": "npx hardhat node",
+        "deploy:local": "npx hardhat run scripts/deploy.ts --network localhost",
+        "deploy:zircuit-testnet": "npx hardhat run scripts/deploy.ts --network zircuit_testnet",
+        "deploy:sepolia": "npx hardhat run scripts/deploy.ts --network sepolia",
+        "deploy:scroll-sepolia": "npx hardhat run scripts/deploy.ts --network scroll_sepolia",
+        "deploy:linea-goerli": "npx hardhat run scripts/deploy.ts --network linea_goerli",
+        "deploy:thunder-testnet": "npx hardhat run scripts/deploy.ts --network thunder_testnet"
+  },
   "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
+    "@nomicfoundation/hardhat-verify": "^2.0.5",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/chai": "^4.3.14",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.4.1",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
     "hardhat": "^2.22.2",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-coverage": "^0.8.11",
+    "typechain": "^8.3.2",
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.2",
     "ts-node": "^10.9.2"
   }
 }
