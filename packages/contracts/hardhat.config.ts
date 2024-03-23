@@ -40,6 +40,14 @@ const config: HardhatUserConfig = {
             url: 'https://testnet-rpc.thundercore.com',
             accounts: [process.env.PRIVATE_KEY as string]
         },
+        optimism_sepolia : {
+            url: process.env.OPTIMISM_SEPOLIA_NODE_URL as string,
+            accounts: [process.env.PRIVATE_KEY as string]
+        },
+        blast_sepolia: {
+            url: process.env.BLAST_SEPOLIA_NODE_URL as string,
+            accounts: [process.env.PRIVATE_KEY as string]
+        }
     },
     etherscan: {
         apiKey: {
