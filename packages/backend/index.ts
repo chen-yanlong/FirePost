@@ -1,35 +1,34 @@
-// Import required modules
 const express = require('express');
-const { Pool } = require('pg');
-require('dotenv').config();
+const http = require('http');
+const socketIo = require('socket.io');
+const schedule = require('node-schedule');
 
-// Initialize Express app
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
+// Schedule a random notification
+const job = schedule.scheduleJob('0 0 * * *', function() {
+  const randomHour = Math.floor(Math.random() * 24); // Generate random hour (0-23)
+  const randomMinute = Math.floor(Math.random() * 60); // Generate random minute (0-59)
 
-// Create a PostgreSQL pool
-const pool = new Pool({
-  connectionString: process.env.DB_URI,
+  const randomTime = new Date();
+  randomTime.setHours(randomHour, randomMinute, 0, 0);
+
+  io.emit('time to take photo', { time: randomTime });
+
+  console.log('Notification sent at', randomTime);
+})
+
+io.on('connection', (socket) => {
+    console.log('Client connected');
+    
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
 });
 
-// Define routes
-app.get('/', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT $1::text as message', ['Hello, world!']);
-    const message = result.rows[0].message;
-    client.release();
-    res.send(message);
-  } catch (err) {
-    console.error('Error executing query:', err);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
-// Start the server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+server.listen(3000, () => {
+    console.log('Server running on port 3000');
 });
