@@ -2,9 +2,6 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-/**
- * Site header
- */
 export const Header = () => {
 
   return (

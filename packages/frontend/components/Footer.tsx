@@ -1,9 +1,6 @@
 "use client";
 import styles from '../styles/Home.module.css';
 
-/**
- * Site header
- */
 export const Footer = () => {
 
   return (
