@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Post from './Post';
+import Post from '../components/Post';
+import styles from '../styles/Home.module.css';
 
 interface PostData {
   id: number;
@@ -15,9 +16,17 @@ const Posts: React.FC = () => {
     // Fetch posts data from backend API
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/api/posts`);
+
         if (response.ok) {
-          const postData = await response.json();
+          const res = await response.json();
+          // re-config the data here
+          const postData: PostData[] = res.map((post: any) => ({
+            id: post.id,
+            photoUrl: post.photo_url,
+            userAddress: post.user_address,
+            likeCount: post.likeNum,
+          }));
           setPosts(postData);
         } else {
           console.error('Failed to fetch posts data');
@@ -56,18 +65,21 @@ const Posts: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Posts</h1>
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          photoUrl={post.photoUrl}
-          userAddress={post.userAddress}
-          likeCount={post.likeCount}
-          onLike={(likeAmount) => handleLike(post.id, likeAmount)}
-        />
-      ))}
-    </div>
+    <main className={styles.main}>
+      <div>
+        <h1 className={styles.title}>Posts</h1>
+        {posts.map((post) => {
+          return <Post
+            key={post.id}
+            photoUrl={post.photoUrl}
+            userAddress={post.userAddress}
+            likeCount={post.likeCount}
+            onLike={(likeAmount) => handleLike(post.id, likeAmount)}
+          />
+        })}
+      </div>
+    </main>
+    
   );
 };
 
