@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const socketIo = require('socket.io');
 const { db } = require('./database');
 const { upload }= require('./photo');
@@ -48,6 +49,8 @@ app.get('/api/balance', async (req, res) => {
     }
 })
 
+app.use('/uploads', express.static('uploads'));
+
 app.get('/api/posts', (req, res) => {
     // Fetch all posts from database
     console.log("call api posts")
@@ -56,7 +59,11 @@ app.get('/api/posts', (req, res) => {
             console.error('Error fetching posts:', err);
             res.status(500).json({ error: 'Internal server error' });
         } else {
-            res.json(rows);
+            const enrichedRows = rows.map(post => ({
+                ...post,
+                photo_url: `${req.protocol}://${req.get('host')}/uploads/${post.photo_url.split('/').pop()}`
+            }));
+            res.json(enrichedRows);
         }
     });
 });
