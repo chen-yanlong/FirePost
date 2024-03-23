@@ -6,17 +6,19 @@ const { upload }= require('./photo');
 const { questions } = require('./questions');
 const { action_tally, action_open, action_givePostReward, getBalance } = require('./contract')
 require('./scheduler'); // Import the scheduler to initialize it
-
+const cors = require('cors')
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server);
 
+
 // API endpoints
-app.post('/api/post', upload.single('photo'), async (req, res) => {
+app.post('/api/post', upload.single('file'), async (req, res) => {
     const { user_address } = req.body;
-    console.log(req.file)
+    
     const photoUrl = req.file ? '/uploads/' + req.file.filename : null; // Get photo URL if uploaded
 
     // Insert post into database with likeNum initialized to 0
@@ -32,7 +34,7 @@ app.post('/api/post', upload.single('photo'), async (req, res) => {
             }
         }
     );
-    await action_givePostReward(user_address);
+    // await action_givePostReward(user_address);
 });
 
 app.get('/api/balance', async (req, res) => {
