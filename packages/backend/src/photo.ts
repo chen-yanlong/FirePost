@@ -1,5 +1,3 @@
-// photos.js
-
 const multer = require('multer');
 
 // store photos in ./uploads

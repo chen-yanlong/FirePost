@@ -16,6 +16,7 @@ const io = socketIo(server);
 // API endpoints
 app.post('/api/post', upload.single('photo'), async (req, res) => {
     const { user_address } = req.body;
+    console.log(req.file)
     const photoUrl = req.file ? '/uploads/' + req.file.filename : null; // Get photo URL if uploaded
 
     // Insert post into database with likeNum initialized to 0
