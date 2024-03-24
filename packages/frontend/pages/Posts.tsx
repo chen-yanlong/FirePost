@@ -68,6 +68,7 @@ const Posts: React.FC = () => {
     <main className={styles.main}>
       <div>
         <h1 className={styles.title}>Posts</h1>
+        <p className={styles.description}>These are the posts today:</p>
         {posts.map((post) => {
           return <Post
             key={post.id}
