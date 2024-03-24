@@ -14,7 +14,10 @@ export const Header = () => {
             </h1>
             </div>
             <div className="flex space-x-4 items-center">
-            <ConnectButton/> 
+            <ConnectButton accountStatus={{
+    smallScreen: 'avatar',
+    largeScreen: 'full',
+  }} chainStatus="icon"/> 
             </div>
         </div>
         </div>
