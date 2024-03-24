@@ -14,6 +14,7 @@ import {
   mainnet,
   optimism,
   polygon,
+  localhost
 } from 'wagmi/chains';
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
@@ -28,6 +29,7 @@ const config = getDefaultConfig({
     mainnet,
     polygon,
     optimism,
+    localhost
   ],
   ssr: true,
 });

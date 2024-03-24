@@ -9,7 +9,7 @@ contract Fire is ERC20 {
     
     mapping(address => mapping(uint256 => uint256)) public votes;
     
-    bool public opening;
+    bool public opening = true;
     address public owner;
     uint public rewardAmount;
     uint public postRewardAmount;
@@ -71,8 +71,8 @@ contract Fire is ERC20 {
         opening = true;
     }
 
-    function givePostReward(address _addr) public onlyOwner {
-        _transfer(address(this), _addr, postRewardAmount);
+    function givePostReward() public {
+        _mint(msg.sender, postRewardAmount);
     }
 
     function getBalance(address _addr) public view returns(uint256) {

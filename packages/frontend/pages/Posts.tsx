@@ -69,6 +69,8 @@ const Posts: React.FC = () => {
       <div>
         <h1 className={styles.title}>Posts</h1>
         <p className={styles.description}>These are the posts today:</p>
+        <p className={styles.description}>Remember, we are using quadratic funding, which means</p>
+        <p className="text-center">Your 1st `like` needs only <strong className='text-red-500'>1 token</strong>, however 2nd `like` needs <strong className='text-red-500'>4 token</strong>, and (3, 9), (4, 16) ...</p>
         {posts.map((post) => {
           return <Post
             key={post.id}

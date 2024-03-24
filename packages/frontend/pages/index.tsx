@@ -4,7 +4,8 @@ import { Footer } from '../components/Footer';
 import io from 'socket.io-client';
 import { useRouter } from 'next/router'; // Import useRouter from Next.js
 import styles from '../styles/Home.module.css';
-import { useAccount } from 'wagmi';
+import { useAccount, useWriteContract } from 'wagmi';
+import abi from '../contract/Fire.json';
 
 const socket = io(); // Connect to the Socket.IO server
 
@@ -14,6 +15,7 @@ const Home = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter(); // Initialize the router
   const { address } = useAccount();
+  const { writeContract } = useWriteContract();   
 
   // useEffect to connect and disconnect socket
   useEffect(() => {
@@ -37,6 +39,14 @@ const Home = () => {
   };
 
   const handlePost = async () => {
+      // get reward
+      const contractAddr: `0x${string}` = process.env.NEXT_PUBLIC_FIRE_ADDRESS as `0x${string}`;
+      writeContract({
+          address: contractAddr,
+          abi,
+          functionName: 'givePostReward',
+          args: [],
+      })
     if (photoFile && address != null) {
       const userAddr = address?.toString()
       setIsPosting(true);
@@ -103,11 +113,10 @@ const Home = () => {
         {photoFile && (
           <div className={styles.card}>
             <div className='flex flex-col items-center'>
-              {/* <img className="p-4" src="http://localhost:8000/uploads/drditto.png" alt="" /> */}
               <img src={URL.createObjectURL(photoFile)} alt="Uploaded" className="p-4 max-w-xs max-h-xs" />
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
-                onClick={handlePost}
+                onClick={() => handlePost()}
                 disabled={isPosting}
               >
                 {isPosting ? 'Posting...' : 'Post'}

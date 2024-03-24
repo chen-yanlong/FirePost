@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Post.module.css';
-import { useEnsName } from 'wagmi';
+import abi from '../contract/Fire.json';
+import { useWriteContract } from 'wagmi';
 
 interface PostProps {
   photoUrl: string;
@@ -11,13 +12,40 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ photoUrl, userAddress, likeCount, onLike }) => {
   const [likeAmount, setLikeAmount] = useState<number>(0);
-  
-  const sliceAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+  const [likeToken, setLikeToken] = useState<number>(0);
+  const { 
+    data: hash,
+    error, 
+    isPending, 
+    writeContract 
+  } = useWriteContract()   
+const sliceAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
 
-  const handleLike = (e: React.FormEvent) => {
+const handleLike = async (e: React.FormEvent) => {
     e.preventDefault();
     onLike(likeAmount);
-  };
+    const address: `0x${string}` = process.env.NEXT_PUBLIC_FIRE_ADDRESS as `0x${string}`;
+    writeContract({
+        address,
+        abi,
+        functionName: 'vote',
+        args: [userAddress, BigInt(likeToken)],
+    })
+};
+
+const DecreaseButton = (() =>
+    <button type="button" className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" onClick={() => {
+        if (likeToken > 0) setLikeToken(likeToken - 1)
+    }}>
+        <svg className="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+    </button>
+)
+
+const IncreaseButton = (() => 
+    <button type="button" className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" onClick={() => setLikeToken(likeToken + 1)}>
+        <svg className="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+    </button>
+)
 
   return (
     <div className="container max-w-screen-md bg-white mt-6 rounded-2xl p-4">
@@ -36,7 +64,15 @@ const Post: React.FC<PostProps> = ({ photoUrl, userAddress, likeCount, onLike })
 
             <div className=" h-20 flex items-center justify-around border-b">
                 <div className="flex items-center gap-3">
-                    <button className='text-white hover:border-rose-600 hover:border hover:border-solid font-bold py-2 px-2 rounded-full' >
+                    <div className="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700" data-hs-input-number>
+                    <div className="flex items-center gap-x-1.5">
+                    <DecreaseButton/>
+                    { likeToken }
+                    <IncreaseButton/>
+                        
+                    </div>
+                    </div>
+                    <button className='text-white hover:border-rose-600 hover:border hover:border-solid font-bold py-2 px-2 rounded-full' onClick={handleLike}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fill-rule="evenodd"
