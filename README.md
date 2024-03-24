@@ -13,3 +13,20 @@ thunder-testnet: 0x20c67aC258eF0D47648af4Bc45a23d726461B4Df
 linea-goerli: 0x20c67aC258eF0D47648af4Bc45a23d726461B4Df
 optimism_sepolia: 0x21e90a1e9f9465aA76a307D7013D7AF8566F48E9
 blast_sepolia: 0x20c67aC258eF0D47648af4Bc45a23d726461B4Df
+
+# How to run
+1. run node
+   ```
+    cd packages/contracts
+    npx hardhat node
+   ```
+2. run backend
+   ```
+    cd packages/backend
+    yarn start
+   ```
+3. start frontend
+   ```
+    cd packages/frontend
+    yarn dev
+   ```
