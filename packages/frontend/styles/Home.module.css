@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 83vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -40,9 +40,12 @@
 }
 
 .title {
-  margin: 3rem 0;
+  margin: 2rem 0;
   line-height: 1;
-  font-size: 2.5rem;
+  font-size: 2.0rem;
+  font-style: italic;
+  font-weight: 350;
+  color: #EF4444;
 }
 
 .title,
@@ -79,8 +82,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0d76fc;
-  border-color: #0d76fc;
+  color: #EF4444;
+  border-color: #EF4444;
 }
 
 .card h2 {
