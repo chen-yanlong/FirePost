@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import { Footer } from '../components/Footer';
 import io from 'socket.io-client';
 import { useRouter } from 'next/router'; // Import useRouter from Next.js
 import styles from '../styles/Home.module.css';
+import { useAccount } from 'wagmi';
 
 const socket = io(); // Connect to the Socket.IO server
 
 const Home = () => {
   const [photoFile, setPhotoFile] = useState<File | null>(null); // Use File instead of string
   const [isPosting, setIsPosting] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter(); // Initialize the router
+  const { address } = useAccount();
 
   // useEffect to connect and disconnect socket
   useEffect(() => {
@@ -34,11 +37,12 @@ const Home = () => {
   };
 
   const handlePost = async () => {
-    if (photoFile) { 
+    if (photoFile && address != null) {
+      const userAddr = address?.toString()
       setIsPosting(true);
       const formData = new FormData();
       formData.append('file', photoFile); 
-      formData.append('user_address', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'); 
+      formData.append('user_address', userAddr); 
 
       try {
         const response = await fetch('http://localhost:8000/api/post', { 
@@ -72,26 +76,46 @@ const Home = () => {
           Welcome to <strong className="italic text-red-300">FIREPOST</strong>
         </h1>
 
-        {/* Upload photo button */}
-        <input type="file" name="file" accept="image/*" onChange={handlePhotoUpload} />
+        {!address && 
+        <div className={styles.card}>
+          <h1>Please Connect the Wallet First! ☝️</h1>
+        </div>}
+
+        {address && <div className={styles.card}>
+          <input
+            type="file"
+            ref={fileInputRef}
+            name="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handlePhotoUpload}
+          />
+          <button
+            className="file-upload-btn"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            POST HERE
+          </button>
+        </div> }
 
 
         {/* Display uploaded photo */}
         {photoFile && (
-          <div>
-            <h2>Uploaded Photo:</h2>
-            <img src={URL.createObjectURL(photoFile)} alt="Uploaded" className="max-w-xs max-h-xs" />
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
-              onClick={handlePost}
-              disabled={isPosting}
-            >
-              {isPosting ? 'Posting...' : 'Post'}
-            </button>
+          <div className={styles.card}>
+            <div className='flex flex-col items-center'>
+              {/* <img className="p-4" src="http://localhost:8000/uploads/drditto.png" alt="" /> */}
+              <img src={URL.createObjectURL(photoFile)} alt="Uploaded" className="p-4 max-w-xs max-h-xs" />
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+                onClick={handlePost}
+                disabled={isPosting}
+              >
+                {isPosting ? 'Posting...' : 'Post'}
+              </button>
+            </div>
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 };
